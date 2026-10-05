@@ -1,0 +1,38 @@
+# Lefthook configuration for Git hooks
+# See: https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    # Run Ruff linter (Python only — README.md is excluded in pyproject but hooks
+    # still receive staged paths; glob avoids passing .md to the tools.)
+    ruff:
+      run: poetry run ruff check {staged_files}
+      glob: "*.py"
+      stage_fixed: true
+
+    ruff-format:
+      run: poetry run ruff format --check {staged_files}
+      glob: "*.py"
+      stage_fixed: true
+
+    black:
+      run: poetry run black --check {staged_files}
+      glob: "*.py"
+      stage_fixed: true
+
+    # Run MyPy type checker
+    mypy:
+      run: poetry run mypy {staged_files}
+      glob: "*.py"
+
+pre-push:
+  commands:
+    # Run all linters on the entire codebase before push
+    lint-all:
+      run: poetry run ruff check .
+      continue_on_error: false
+
+    type-check-all:
+      run: poetry run mypy .
+      continue_on_error: false

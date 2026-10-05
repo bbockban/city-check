@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+.env.example
+.ruff_cache
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+tests
+docs
+README.md
+QUICK_COMMANDS.md
+CLAUDE.md
+.claude
